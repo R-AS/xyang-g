@@ -1,20 +1,22 @@
-import create from 'zustand'
+import create, { SetState, GetState } from 'zustand'
 
-type TSite = {
+type TSiteState = {
   title: string
   author: string
   description: string
+  siteUrl: string
 }
 
-const useSiteStore = create<TSite>(set => ({
+type TSiteStore = {
+  setSiteData: (state: TSiteState) => void
+} & TSiteState
+
+export const useSiteStore = create<TSiteStore>((set: SetState<TSiteStore>, get: GetState<TSiteStore>) => ({
   title: '',
   author: '',
   description: '',
-  setSiteData: (site: TSite) => set(() => ({
-    title: site.title,
-    author: site.author,
-    description: site.description,
-  }))
+  siteUrl: '',
+  setSiteData: (site: TSiteState) => {
+    set(site)
+  }
 }))
-
-export default useSiteStore
